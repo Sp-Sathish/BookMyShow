@@ -52,5 +52,10 @@ public class AdminDao {
 		return adminRepo.findAll();
 	}
 	
+	public Admin findByadmEmail(String admEmail)
+	{
+		return adminRepo.findByadmEmail(admEmail);
+	}
+	
 	
 }

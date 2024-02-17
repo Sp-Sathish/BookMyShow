@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.Springboot.BookMyShowApp.Dao.UserDao;
 import com.Springboot.BookMyShowApp.Dto.UserDto;
 import com.Springboot.BookMyShowApp.Entity.User;
+import com.Springboot.BookMyShowApp.ExceptionHandler.UserNotFound;
 import com.Springboot.BookMyShowApp.Util.ResponseStructure;
 
 @Service
@@ -46,7 +47,7 @@ public class UserService {
 			structure.setData(uDto);
 			return new ResponseEntity<ResponseStructure<UserDto>>(structure,HttpStatus.FOUND);
 		}
-		return null ;
+		throw new UserNotFound("User not found with given id");
 	}
 	
 	public ResponseEntity<ResponseStructure<UserDto>>deleteUser(int userId)
@@ -63,9 +64,8 @@ public class UserService {
 			structure.setStatus(HttpStatus.OK.value() );
 			return new ResponseEntity<ResponseStructure<UserDto>>(structure, HttpStatus.OK);
 		}
-		return null ;
+		throw new UserNotFound("User not found with given id");
 	}
-	
 	public ResponseEntity<ResponseStructure<List<UserDto>>>findAllUsers()
 	{
 		List<User> userList = userDao.findAllUser();
@@ -79,16 +79,34 @@ public class UserService {
 				mapper.map(u,uDto);
 				uDtoList.add(uDto);
 			}
-			
 			ResponseStructure<List<UserDto>> structure  = new ResponseStructure<List<UserDto>>();
 			structure.setMessage("All User Found success");
 			structure.setStatus(HttpStatus.OK.value());
 			structure.setData(uDtoList);
 			return new ResponseEntity<ResponseStructure<List<UserDto>>>(structure ,HttpStatus.FOUND);
 		}
-		return null ;
+		throw new UserNotFound("UserList not found");
 	}
-	
+	public ResponseEntity<ResponseStructure<UserDto>> userLogin(String userEmail , String userPassword)
+	{
+		ResponseStructure<UserDto> structure  = new ResponseStructure<UserDto>();
+		User exiUser = userDao.findByuserEmail(userEmail);
+		
+		if(exiUser != null)
+		{
+			if(exiUser.getUserPassword().equalsIgnoreCase(userPassword))
+			{
+				UserDto uDto =  new UserDto() ;
+				ModelMapper mapper = new ModelMapper();
+				mapper.map(exiUser, uDto);
+				structure.setMessage("User Login success");
+				structure.setStatus(HttpStatus.FOUND.value());
+				structure.setData(uDto);
+				return new ResponseEntity<ResponseStructure<UserDto>>(structure,HttpStatus.FOUND);
+			}
+		}
+		throw new UserNotFound("Check Your Email and password");
+	}
 	
 	
 }

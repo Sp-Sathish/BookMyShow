@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,4 +44,14 @@ public class AdminController
 	{
 		return adminService.findAllAdmin();
 	}
+	@GetMapping("adminLogin")
+	public ResponseEntity<ResponseStructure<AdminDto>> adminLogin(@RequestParam String admEmail ,@RequestParam String admPassword )
+	{
+		return adminService.adminLogin(admEmail,admPassword);
+	}
+	@PutMapping
+	ResponseEntity<ResponseStructure<AdminDto>> assignTheatresToAdmin(@RequestParam int adminId,@RequestBody List<Integer> theatreIds){
+		return adminService.assignTheatresToAdmin(adminId, theatreIds);
+	}
+	
 }

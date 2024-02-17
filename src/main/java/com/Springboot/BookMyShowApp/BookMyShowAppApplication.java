@@ -8,6 +8,6 @@ public class BookMyShowAppApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookMyShowAppApplication.class, args);
+		
 	}
-
 }

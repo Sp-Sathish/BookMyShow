@@ -7,39 +7,43 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.Springboot.BookMyShowApp.Dto.UserDto;
-import com.Springboot.BookMyShowApp.Entity.User;
-import com.Springboot.BookMyShowApp.Service.UserService;
+
+import com.Springboot.BookMyShowApp.Entity.Seat;
+import com.Springboot.BookMyShowApp.Service.SeatService;
 import com.Springboot.BookMyShowApp.Util.ResponseStructure;
 
 @RestController
-@RequestMapping("User")
-public class UserController 
-{
+@RequestMapping("Seat")
+public class SeatController {
+
 	@Autowired
-	private UserService userService ;
+	private SeatService seatService ;
+	
 	@PostMapping
-	public ResponseEntity<ResponseStructure<UserDto>>saveUser(@RequestBody User user )
+	public ResponseEntity<ResponseStructure<Seat>> saveSeat(@RequestBody Seat seat)
 	{
-		return userService.saveUser(user);
+		return seatService.saveSeat(seat);
 	}
 	@GetMapping
-	public ResponseEntity<ResponseStructure<UserDto>>findUser(@RequestParam int userId )
+	public ResponseEntity<ResponseStructure<Seat>> findSeat(@RequestParam int seatId)
 	{
-		return userService.findUser(userId);
+		return seatService.findSeat(seatId);
 	}
 	@DeleteMapping
-	public ResponseEntity<ResponseStructure<UserDto>>deleteUser(@RequestParam int userId )
+	public ResponseEntity<ResponseStructure<Seat>> deleteSeat(@RequestParam int seatId)
 	{
-		return userService.deleteUser(userId);
+		return seatService.deleteSeat(seatId);
 	}
-	@GetMapping("AllUsers")
-	public ResponseEntity<ResponseStructure<List<UserDto>>> findAllAdmins()
+	
+	@GetMapping("AllSeat")
+	public ResponseEntity<ResponseStructure<List<Seat>>> findAllSeats()
 	{
-		return userService.findAllUsers();
+		return seatService.findAllSeat();
 	}
+	
 }

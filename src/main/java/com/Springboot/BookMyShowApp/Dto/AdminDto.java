@@ -1,8 +1,6 @@
 package com.Springboot.BookMyShowApp.Dto;
 
 public class AdminDto {
-
-	
 	private int admId ;
 	private String admName ;
 	private String admEmail ;
